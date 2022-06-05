@@ -11,6 +11,7 @@ namespace Exercises.API.Data
             var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
 
             Exercises = database.GetCollection<Exercise>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
+            ExerciseContextSeed.SeedData(Exercises);
         }
 
         public IMongoCollection<Exercise> Exercises { get; }
