@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Exercises.API", Version = "v1" });
 });
 
 builder.Services.AddScoped<IExerciseContext, ExerciseContext>();
