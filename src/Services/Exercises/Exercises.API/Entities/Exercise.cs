@@ -11,5 +11,6 @@ namespace Exercises.API.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageFile { get; set; }
+        public List<MuscleGroup>? MuscleGroups { get; set; }
     }
 }

@@ -12,6 +12,43 @@ namespace Exercises.API.Data
                 exerciseCollection.InsertManyAsync(GetPreConfiguredExercises());
         }
 
+        private static IEnumerable<MuscleGroup> GetPreConfiguredMuscleGroups()
+        {
+            return new List<MuscleGroup>
+            {
+                new MuscleGroup 
+                {
+                    Id = "602d2149e773f2a3990b47f5",
+                    Name = "Chest",
+                    IsMain = false,
+                },
+                new MuscleGroup
+                {
+                    Id = "602d2149e773f2a3990b47f6",
+                    Name = "Back",
+                    IsMain = false,
+                },
+                new MuscleGroup
+                {
+                    Id = "602d2149e773f2a3990b47f7",
+                    Name = "Biceps",
+                    IsMain = false,
+                },
+                new MuscleGroup
+                {
+                    Id = "602d2149e773f2a3990b47f8",
+                    Name = "Legs",
+                    IsMain = false,
+                },
+                new MuscleGroup
+                {
+                    Id = "602d2149e773f2a3990b47f9",
+                    Name = "Calf",
+                    IsMain = false,
+                },
+            };
+        }
+
         private static IEnumerable<Exercise> GetPreConfiguredExercises()
         {
             return new List<Exercise>
@@ -20,19 +57,52 @@ namespace Exercises.API.Data
                 {
                     Name = "Bench press",
                     Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.",
-                    ImageFile = "bench-press.png"
+                    ImageFile = "bench-press.png",
+                    MuscleGroups = new List<MuscleGroup>
+                    {
+                        new MuscleGroup
+                        {
+                            Id = "602d2149e773f2a3990b47f5",
+                            Name = "Chest",
+                            IsMain = true
+                        }
+                    }
                 },
                 new Exercise
                 {
                     Name = "Dumbbell row",
                     Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.",
-                    ImageFile = "dumbbell-row.png"
+                    ImageFile = "dumbbell-row.png",
+                    MuscleGroups = new List<MuscleGroup>
+                    {
+                        new MuscleGroup
+                        {
+                            Id = "602d2149e773f2a3990b47f7",
+                            Name = "Biceps",
+                            IsMain = true
+                        }
+                    }
                 },
                 new Exercise
                 {
                     Name = "Back squat",
                     Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.",
-                    ImageFile = "back-squat.png"
+                    ImageFile = "back-squat.png",
+                    MuscleGroups = new List<MuscleGroup>
+                    {
+                        new MuscleGroup
+                        {
+                            Id = "602d2149e773f2a3990b47f8",
+                            Name = "Legs",
+                            IsMain = true
+                        },
+                        new MuscleGroup
+                        {
+                            Id = "602d2149e773f2a3990b47f9",
+                            Name = "Calf",
+                            IsMain = false
+                        },
+                    }
                 }
             };
         }
