@@ -1,4 +1,5 @@
 ﻿using Exercises.API.Entities;
+using Exercises.API.Utilitities;
 using MongoDB.Driver;
 
 namespace Exercises.API.Data
@@ -7,13 +8,14 @@ namespace Exercises.API.Data
     {
         public ExerciseContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-            var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
-
-            Exercises = database.GetCollection<Exercise>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
+            Exercises = MongoUtilities<Exercise>.GetCollection("Exercises", configuration);
             ExerciseContextSeed.SeedData(Exercises);
+
+            MuscleGroups = MongoUtilities<MuscleGroup>.GetCollection("MuscleGroups", configuration);
+            MuscleGroupContextSeed.SeedData(MuscleGroups);
         }
 
         public IMongoCollection<Exercise> Exercises { get; }
+        public IMongoCollection<MuscleGroup> MuscleGroups { get; }
     }
 }

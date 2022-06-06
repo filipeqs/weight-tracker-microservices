@@ -12,43 +12,6 @@ namespace Exercises.API.Data
                 exerciseCollection.InsertManyAsync(GetPreConfiguredExercises());
         }
 
-        private static IEnumerable<MuscleGroup> GetPreConfiguredMuscleGroups()
-        {
-            return new List<MuscleGroup>
-            {
-                new MuscleGroup 
-                {
-                    Id = "602d2149e773f2a3990b47f5",
-                    Name = "Chest",
-                    IsMain = false,
-                },
-                new MuscleGroup
-                {
-                    Id = "602d2149e773f2a3990b47f6",
-                    Name = "Back",
-                    IsMain = false,
-                },
-                new MuscleGroup
-                {
-                    Id = "602d2149e773f2a3990b47f7",
-                    Name = "Biceps",
-                    IsMain = false,
-                },
-                new MuscleGroup
-                {
-                    Id = "602d2149e773f2a3990b47f8",
-                    Name = "Legs",
-                    IsMain = false,
-                },
-                new MuscleGroup
-                {
-                    Id = "602d2149e773f2a3990b47f9",
-                    Name = "Calf",
-                    IsMain = false,
-                },
-            };
-        }
-
         private static IEnumerable<Exercise> GetPreConfiguredExercises()
         {
             return new List<Exercise>
