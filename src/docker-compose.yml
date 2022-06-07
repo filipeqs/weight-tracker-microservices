@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  exercisedb:
+    image: mongo
+
+  exercises.api:
+    image: ${DOCKER_REGISTRY-}exercisesapi
+    build:
+      context: .
+      dockerfile: Services/Exercises/Exercises.API/Dockerfile
+
+volumes:
+  mongo_data: 
