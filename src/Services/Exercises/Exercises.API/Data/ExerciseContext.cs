@@ -1,21 +1,16 @@
 ﻿using Exercises.API.Entities;
-using Exercises.API.Utilitities;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
 namespace Exercises.API.Data
 {
-    public class ExerciseContext : IExerciseContext
+    public class ExerciseContext : DbContext
     {
-        public ExerciseContext(IConfiguration configuration)
+        public ExerciseContext(DbContextOptions options) : base(options)
         {
-            Exercises = MongoUtilities<Exercise>.GetCollection("Exercises", configuration);
-            ExerciseContextSeed.SeedData(Exercises);
-
-            MuscleGroups = MongoUtilities<MuscleGroup>.GetCollection("MuscleGroups", configuration);
-            MuscleGroupContextSeed.SeedData(MuscleGroups);
         }
 
-        public IMongoCollection<Exercise> Exercises { get; }
-        public IMongoCollection<MuscleGroup> MuscleGroups { get; }
+        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<MuscleGroup> MuscleGroups { get; set; }
     }
 }

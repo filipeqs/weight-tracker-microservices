@@ -5,7 +5,7 @@ namespace Exercises.API.Repository
     public interface IExerciseRepository
     {
         Task<IEnumerable<Exercise>> GetExercises();
-        Task<Exercise> GetExerciseById(string id);
+        Task<Exercise?> GetExerciseById(string id);
         Task<IEnumerable<Exercise>> GetExerciseByName(string name);
         Task CreateExercise(Exercise exercise);
         Task<bool> UpdateExercise(Exercise exercise);

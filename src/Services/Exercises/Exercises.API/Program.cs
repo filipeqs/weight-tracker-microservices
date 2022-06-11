@@ -1,5 +1,6 @@
 using Exercises.API.Data;
 using Exercises.API.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,11 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Exercises.API", Version = "v1" });
 });
 
-builder.Services.AddScoped<IExerciseContext, ExerciseContext>();
+var connectionString = builder.Configuration.GetValue<string>("DatabaseSettings:ConnectionString");
+builder.Services.AddDbContext<ExerciseContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+);
+
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 
 var app = builder.Build();

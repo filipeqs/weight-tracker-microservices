@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   exercisedb:
-    image: mongo
+    image: mysql
 
   exercises.api:
     image: ${DOCKER_REGISTRY-}exercisesapi
@@ -11,4 +11,4 @@ services:
       dockerfile: Services/Exercises/Exercises.API/Dockerfile
 
 volumes:
-  mongo_data: 
+  mysql_data: 
