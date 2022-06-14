@@ -2,6 +2,7 @@
 using Exercises.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Exercises.API.Migrations
 {
     [DbContext(typeof(ExerciseContext))]
-    partial class ExerciseContextModelSnapshot : ModelSnapshot
+    [Migration("20220614005518_ExerciseId-To-MuscleGroup")]
+    partial class ExerciseIdToMuscleGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

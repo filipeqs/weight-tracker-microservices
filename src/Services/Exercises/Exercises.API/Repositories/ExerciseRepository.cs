@@ -3,7 +3,7 @@ using Exercises.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
-namespace Exercises.API.Repository
+namespace Exercises.API.Repositories
 {
     public class ExerciseRepository : IExerciseRepository
     {
@@ -17,7 +17,7 @@ namespace Exercises.API.Repository
         public async Task<IEnumerable<Exercise>> GetExercises() =>
             await _context.Exercises.ToListAsync();
 
-        public async Task<Exercise?> GetExerciseById(string id) =>
+        public async Task<Exercise?> GetExerciseById(int id) =>
             await _context.Exercises
                 .Include(q => q.MuscleGroups)
                 .FirstOrDefaultAsync(q => q.Id == id);
@@ -30,6 +30,7 @@ namespace Exercises.API.Repository
 
         public async Task CreateExercise(Exercise exercise)
         {
+   
             _context.Exercises.Add(exercise);
             await _context.SaveChangesAsync();
         }
@@ -40,7 +41,7 @@ namespace Exercises.API.Repository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> DeleteExercise(string id)
+        public async Task<bool> DeleteExercise(int id)
         {
             var exercise = await _context.Exercises.FirstOrDefaultAsync(q => q.Id == id);
 

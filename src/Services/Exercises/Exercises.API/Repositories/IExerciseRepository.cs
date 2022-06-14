@@ -1,14 +1,14 @@
 ﻿using Exercises.API.Entities;
 
-namespace Exercises.API.Repository
+namespace Exercises.API.Repositories
 {
     public interface IExerciseRepository
     {
         Task<IEnumerable<Exercise>> GetExercises();
-        Task<Exercise?> GetExerciseById(string id);
+        Task<Exercise?> GetExerciseById(int id);
         Task<IEnumerable<Exercise>> GetExerciseByName(string name);
         Task CreateExercise(Exercise exercise);
         Task<bool> UpdateExercise(Exercise exercise);
-        Task<bool> DeleteExercise(string id);
+        Task<bool> DeleteExercise(int id);
     }
 }

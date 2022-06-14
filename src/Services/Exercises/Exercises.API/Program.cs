@@ -1,5 +1,7 @@
 using Exercises.API.Data;
-using Exercises.API.Repository;
+using Exercises.API.Extensions;
+using Exercises.API.Helpers;
+using Exercises.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -20,9 +22,12 @@ builder.Services.AddDbContext<ExerciseContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 
 var app = builder.Build();
+
+app.MigrateDatabase();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
