@@ -51,5 +51,18 @@ namespace Exercises.API.Repositories
             _context.Exercises.Remove(exercise);
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<bool> UpdateMuscleGroup(int id, List<MuscleGroup> muscleGroup)
+        {
+            var exercise = await _context.Exercises.FirstOrDefaultAsync(q => q.Id == id);
+
+            if (exercise == null)
+                return false;
+
+            exercise?.MuscleGroups?.RemoveAll(q => true);
+            exercise?.MuscleGroups?.AddRange(muscleGroup);
+
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

@@ -14,9 +14,6 @@ namespace Exercises.API.Entities
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public bool IsMain { get; set; } = false;
-        [ForeignKey("Exercise")]
-        public int ExerciseId { get; set; }
-        public Exercise Exercise { get; set; }
+        public List<Exercise> Exercises { get; set; }
     }
 }

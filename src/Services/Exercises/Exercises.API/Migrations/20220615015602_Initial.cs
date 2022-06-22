@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Exercises.API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,34 +38,55 @@ namespace Exercises.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsMain = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ExerciseId = table.Column<int>(type: "int", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MuscleGroups", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ExerciseMuscleGroup",
+                columns: table => new
+                {
+                    ExercisesId = table.Column<int>(type: "int", nullable: false),
+                    MuscleGroupsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseMuscleGroup", x => new { x.ExercisesId, x.MuscleGroupsId });
                     table.ForeignKey(
-                        name: "FK_MuscleGroups_Exercises_ExerciseId",
-                        column: x => x.ExerciseId,
+                        name: "FK_ExerciseMuscleGroup_Exercises_ExercisesId",
+                        column: x => x.ExercisesId,
                         principalTable: "Exercises",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExerciseMuscleGroup_MuscleGroups_MuscleGroupsId",
+                        column: x => x.MuscleGroupsId,
+                        principalTable: "MuscleGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MuscleGroups_ExerciseId",
-                table: "MuscleGroups",
-                column: "ExerciseId");
+                name: "IX_ExerciseMuscleGroup_MuscleGroupsId",
+                table: "ExerciseMuscleGroup",
+                column: "MuscleGroupsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MuscleGroups");
+                name: "ExerciseMuscleGroup");
 
             migrationBuilder.DropTable(
                 name: "Exercises");
+
+            migrationBuilder.DropTable(
+                name: "MuscleGroups");
         }
     }
 }

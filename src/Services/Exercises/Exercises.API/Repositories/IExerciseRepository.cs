@@ -10,5 +10,6 @@ namespace Exercises.API.Repositories
         Task CreateExercise(Exercise exercise);
         Task<bool> UpdateExercise(Exercise exercise);
         Task<bool> DeleteExercise(int id);
+        Task<bool> UpdateMuscleGroup(int id, List<MuscleGroup> muscleGroup);
     }
 }

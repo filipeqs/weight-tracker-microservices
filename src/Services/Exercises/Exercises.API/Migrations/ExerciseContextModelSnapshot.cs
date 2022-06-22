@@ -18,6 +18,21 @@ namespace Exercises.API.Migrations
                 .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("ExerciseMuscleGroup", b =>
+                {
+                    b.Property<int>("ExercisesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MuscleGroupsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExercisesId", "MuscleGroupsId");
+
+                    b.HasIndex("MuscleGroupsId");
+
+                    b.ToTable("ExerciseMuscleGroup");
+                });
+
             modelBuilder.Entity("Exercises.API.Entities.Exercise", b =>
                 {
                     b.Property<int>("Id")
@@ -46,37 +61,28 @@ namespace Exercises.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExerciseId");
-
                     b.ToTable("MuscleGroups");
                 });
 
-            modelBuilder.Entity("Exercises.API.Entities.MuscleGroup", b =>
+            modelBuilder.Entity("ExerciseMuscleGroup", b =>
                 {
-                    b.HasOne("Exercises.API.Entities.Exercise", "Exercise")
-                        .WithMany("MuscleGroups")
-                        .HasForeignKey("ExerciseId")
+                    b.HasOne("Exercises.API.Entities.Exercise", null)
+                        .WithMany()
+                        .HasForeignKey("ExercisesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Exercise");
-                });
-
-            modelBuilder.Entity("Exercises.API.Entities.Exercise", b =>
-                {
-                    b.Navigation("MuscleGroups");
+                    b.HasOne("Exercises.API.Entities.MuscleGroup", null)
+                        .WithMany()
+                        .HasForeignKey("MuscleGroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

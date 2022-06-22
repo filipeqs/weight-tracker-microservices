@@ -1,6 +1,6 @@
-﻿using Exercises.API.Entities;
+﻿using MongoDB.Driver;
+using Exercises.API.Entities;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 
 namespace Exercises.API.Data
 {

@@ -1,4 +1,4 @@
-﻿namespace Exercises.API.DTOs.MuscleGroupDTOs
+﻿namespace Exercises.Domain.DTOs.MuscleGroupDTOs
 {
     public class MuscleGroupDetailsDto
     {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Exercises.API.DTOs.ExerciseDTOs;
+using Exercises.API.DTOs.MuscleGroupDTOs;
 using Exercises.API.Entities;
 using Exercises.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -83,6 +84,7 @@ namespace Exercises.API.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsDto>> UpdateExercise([FromBody] ExerciseUpdateDto exerciseUpdateDto)
@@ -108,8 +110,8 @@ namespace Exercises.API.Controllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteExerciseById(int id)
         {
             var deleted = await _exerciseRepository.DeleteExercise(id);
@@ -117,6 +119,31 @@ namespace Exercises.API.Controllers
             {
                 _logger.LogError($"Failed to delete exercise with id: {id}");
                 return BadRequest("Failed to delete exercise");
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("{id}/muscleGroup")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateMuscleGroups(int id, [FromBody] List<MuscleGroupCreateDto> muscleGroupDetailsDto)
+        {
+            var exercise = _exerciseRepository.GetExerciseById(id);
+            if (exercise == null)
+            {
+                _logger.LogError($"Exercise with id: {id}, not found.");
+                return NotFound();
+            }
+
+            var muscleGroups = _mapper.Map<List<MuscleGroup>>(muscleGroupDetailsDto);
+
+            var updated = await _exerciseRepository.UpdateMuscleGroup(id, muscleGroups);
+            if (!updated)
+            {
+                _logger.LogError($"Failed to updated exercise with id: {exercise.Id}");
+                return BadRequest("Failed to updated exercise");
             }
 
             return Ok();
