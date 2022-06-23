@@ -1,10 +1,16 @@
-﻿using AutoMapper;
-using Exercises.API.DTOs.ExerciseDTOs;
-using Exercises.API.DTOs.MuscleGroupDTOs;
-using Exercises.API.Entities;
-using Exercises.API.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using AutoMapper;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Exercises.Application.DTOs.ExerciseDTOs;
+using Exercises.Application.DTOs.MuscleGroupDTOs;
+using Exercises.Application.Features.Exercises.Commands.CreateExercise;
+using Exercises.Application.Features.Exercises.Commands.DeleteExercise;
+using Exercises.Application.Features.Exercises.Commands.UpdateExercise;
+using Exercises.Application.Features.Exercises.Queries.GetExerciseById;
+using Exercises.Application.Features.Exercises.Queries.GetExercisesList;
+using Exercises.Application.Features.Exercises.Queries.GetExerciseByName;
+using Exercises.Application.Features.Exercises.Commands.UpdateExerciseMuscleGroup;
 
 namespace Exercises.API.Controllers
 {
@@ -12,25 +18,30 @@ namespace Exercises.API.Controllers
     [ApiController]
     public class ExercisesController : ControllerBase
     {
-        private readonly IExerciseRepository _exerciseRepository;
         private readonly ILogger<ExercisesController> _logger;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public ExercisesController(IExerciseRepository exerciseRepository, ILogger<ExercisesController> logger, IMapper mapper)
+        public ExercisesController(ILogger<ExercisesController> logger, IMapper mapper, IMediator mediator)
         {
-            _exerciseRepository = exerciseRepository;
             _logger = logger;
             _mapper = mapper;
+            _mediator = mediator;
+        }
+
+        private void LogError(string message)
+        {
+            _logger.LogError(message);
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ExerciseDetailsDto>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ExerciseDetailsDto>>> GetExercises()
         {
-            var exercises = await _exerciseRepository.GetExercises();
-            var exercisesDto = _mapper.Map<IEnumerable<ExerciseDetailsDto>>(exercises);
+            var query = new GetExercisesListQuery();
+            var exercises = await _mediator.Send(query);
 
-            return Ok(exercisesDto);
+            return Ok(exercises);
         }
 
         [HttpGet]
@@ -39,17 +50,16 @@ namespace Exercises.API.Controllers
         [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsDto>> GetExercise(int id)
         {
-            var exercise = await _exerciseRepository.GetExerciseById(id);
+            var query = new GetExerciseByIdQuery(id);
+            var exercise = await _mediator.Send(query);
 
             if (exercise == null)
             {
-                _logger.LogError($"Exercise with id: {id}, not found.");
+                LogError($"Exercise with id: {id}, not found.");
                 return NotFound();
             }
 
-            var exerciseDto = _mapper.Map<ExerciseDetailsDto>(exercise);
-
-            return Ok(exerciseDto);
+            return Ok(exercise);
         }
 
         [HttpGet]
@@ -58,29 +68,26 @@ namespace Exercises.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ExerciseDetailsDto>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ExerciseDetailsDto>>> GetExerciseByName(string name)
         {
-            var exercise = await _exerciseRepository.GetExerciseByName(name);
+            var query = new GetExerciseByNameQuery(name);
+            var exercise = await _mediator.Send(query);
 
             if (exercise == null)
             {
-                _logger.LogError($"Exercise that container {name}, not found.");
+                LogError($"Exercise that contains {name}, not found.");
                 return NotFound();
             }
 
-            var exerciseDto = _mapper.Map<IEnumerable<ExerciseDetailsDto>>(exercise);
-
-            return Ok(exerciseDto);
+            return Ok(exercise);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsDto>> CreateExercise([FromBody] ExerciseCreateDto exerciseCreateDto)
         {
-            var exercise = _mapper.Map<Exercise>(exerciseCreateDto);
-            await _exerciseRepository.CreateExercise(exercise);
+            var command = new CreateExerciseCommand(exerciseCreateDto);
+            var exercise = await _mediator.Send(command);
 
-            var exerciseDto = _mapper.Map<ExerciseDetailsDto>(exercise);
-
-            return CreatedAtRoute("GetExercise", new { id = exercise.Id }, exerciseDto);
+            return CreatedAtRoute("GetExercise", new { id = exercise.Id }, exercise);
         }
 
         [HttpPut]
@@ -89,24 +96,10 @@ namespace Exercises.API.Controllers
         [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsDto>> UpdateExercise([FromBody] ExerciseUpdateDto exerciseUpdateDto)
         {
-            var exercise = await _exerciseRepository.GetExerciseById(exerciseUpdateDto.Id);
+            var command = new UpdateExerciseCommand(exerciseUpdateDto);
+            var exercise = await _mediator.Send(command);
 
-            if (exercise == null)
-            {
-                _logger.LogError($"Exercise with id: {exerciseUpdateDto.Id}, not found.");
-                return NotFound();
-            }
-
-            var updated = await _exerciseRepository.UpdateExercise(exercise);
-            if (!updated)
-            {
-                _logger.LogError($"Failed to updated exercise with id: {exercise.Id}");
-                return BadRequest("Failed to updated exercise");
-            }
-
-            var exerciseDto = _mapper.Map<ExerciseDetailsDto>(exercise);
-
-            return Ok(exerciseDto);
+            return Ok(exercise);
         }
 
         [HttpDelete]
@@ -114,12 +107,8 @@ namespace Exercises.API.Controllers
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteExerciseById(int id)
         {
-            var deleted = await _exerciseRepository.DeleteExercise(id);
-            if (!deleted)
-            {
-                _logger.LogError($"Failed to delete exercise with id: {id}");
-                return BadRequest("Failed to delete exercise");
-            }
+            var command = new DeleteExerciseCommand(id);
+            await _mediator.Send(command);
 
             return Ok();
         }
@@ -130,21 +119,8 @@ namespace Exercises.API.Controllers
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateMuscleGroups(int id, [FromBody] List<MuscleGroupCreateDto> muscleGroupDetailsDto)
         {
-            var exercise = _exerciseRepository.GetExerciseById(id);
-            if (exercise == null)
-            {
-                _logger.LogError($"Exercise with id: {id}, not found.");
-                return NotFound();
-            }
-
-            var muscleGroups = _mapper.Map<List<MuscleGroup>>(muscleGroupDetailsDto);
-
-            var updated = await _exerciseRepository.UpdateMuscleGroup(id, muscleGroups);
-            if (!updated)
-            {
-                _logger.LogError($"Failed to updated exercise with id: {exercise.Id}");
-                return BadRequest("Failed to updated exercise");
-            }
+            var command = new UpdateExerciseMuscleGroupCommand(id, muscleGroupDetailsDto);
+            await _mediator.Send(command);
 
             return Ok();
         }

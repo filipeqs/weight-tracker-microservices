@@ -1,8 +1,7 @@
-using Exercises.API.Data;
 using Exercises.API.Extensions;
-using Exercises.API.Helpers;
-using Exercises.API.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Exercises.Application;
+using Exercises.Infrastructure;
+using Exercises.Infrastructure.Persistance;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,17 +16,16 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Exercises.API", Version = "v1" });
 });
 
-var connectionString = builder.Configuration.GetValue<string>("DatabaseSettings:ConnectionString");
-builder.Services.AddDbContext<ExerciseContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-);
-
-builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.MigrateDatabase();
+app.MigrateDatabase<ExerciseContext>((context, services) =>
+{
+    var logger = services.GetService<ILogger<ExerciseContextSeed>>();
+    ExerciseContextSeed.SeedAsync(context, logger).Wait();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

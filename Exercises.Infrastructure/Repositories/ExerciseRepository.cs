@@ -1,7 +1,7 @@
-﻿using Exercises.Application.Contracts.Persistance;
-using Exercises.Domain.Entities;
-using Exercises.Infrastructure.Persistance;
+﻿using Exercises.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Exercises.Infrastructure.Persistance;
+using Exercises.Application.Contracts.Persistance;
 
 namespace Exercises.Infrastructure.Repositories
 {
@@ -12,17 +12,18 @@ namespace Exercises.Infrastructure.Repositories
         {
         }
 
-        public async Task<bool> UpdateMuscleGroup(int id, List<MuscleGroup> muscleGroup)
+        public async Task UpdateMuscleGroup(Exercise exercise, List<MuscleGroup> muscleGroup)
         {
-            var exercise = await _dbContext.Exercises.FirstOrDefaultAsync(q => q.Id == id);
-
-            if (exercise == null)
-                return false;
-
             exercise?.MuscleGroups?.RemoveAll(q => true);
             exercise?.MuscleGroups?.AddRange(muscleGroup);
-
-            return await _dbContext.SaveChangesAsync() > 0;
+            
+            await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<IReadOnlyList<Exercise>> GetExerciseByName(string name) =>
+            await _dbContext.Exercises
+                .Include(q => q.MuscleGroups)
+                .Where(q => q.Name.ToLower().Contains(name.ToLower()))
+                .ToListAsync();
     }
 }
