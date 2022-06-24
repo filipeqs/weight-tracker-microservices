@@ -9,6 +9,6 @@ services:
     build:
       context: .
       dockerfile: Services/Exercises/Exercises.API/Dockerfile
-
+  
 volumes:
-  mysql_data: 
+  mysql_data:

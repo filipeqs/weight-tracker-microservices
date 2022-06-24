@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>2c64f077-f80e-4195-b0fa-3aff5cd9e52e</ProjectGuid>
+    <ProjectGuid>70bbacae-f35b-46c5-a434-f4458c32e618</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>exercises.api</DockerServiceName>
