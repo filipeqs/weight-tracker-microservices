@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Exercises.Application\Exercises.Application.csproj" />
-    <ProjectReference Include="..\..\..\..\Exercises.Infrastructure\Exercises.Infrastructure.csproj" />
+    <ProjectReference Include="..\Exercises.Application\Exercises.Application.csproj" />
+    <ProjectReference Include="..\Exercises.Infrastructure\Exercises.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

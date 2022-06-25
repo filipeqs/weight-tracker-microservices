@@ -2,6 +2,7 @@
 using AutoMapper;
 using Exercises.Domain.Entities;
 using Exercises.Application.Contracts.Persistance;
+using Exercises.Application.Exceptions;
 
 namespace Exercises.Application.Features.Exercises.Commands.UpdateExerciseMuscleGroup
 {
@@ -20,9 +21,7 @@ namespace Exercises.Application.Features.Exercises.Commands.UpdateExerciseMuscle
         {
             var exerciseToUpdate = await _exerciseRepository.GetByIdAsync(request.Id);
             if (exerciseToUpdate == null)
-            {
-                throw new Exception();
-            }
+                throw new NotFoundException(nameof(Exercise), request.Id);
 
             var muscleGroups = _mapper.Map<List<MuscleGroup>>(request.muscleGroupDetailsDto);
 

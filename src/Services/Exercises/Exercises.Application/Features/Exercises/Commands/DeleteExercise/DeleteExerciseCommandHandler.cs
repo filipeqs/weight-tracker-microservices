@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using AutoMapper;
 using Exercises.Application.Contracts.Persistance;
+using Exercises.Application.Exceptions;
+using Exercises.Domain.Entities;
 
 namespace Exercises.Application.Features.Exercises.Commands.DeleteExercise
 {
@@ -19,9 +21,7 @@ namespace Exercises.Application.Features.Exercises.Commands.DeleteExercise
         {
             var exerciseToDelete = await _exerciseRepository.GetByIdAsync(request.Id);
             if (exerciseToDelete == null)
-            {
-                throw new Exception();
-            }
+                throw new NotFoundException(nameof(Exercise), request.Id);
 
             await _exerciseRepository.DeleteAsync(exerciseToDelete);
 
