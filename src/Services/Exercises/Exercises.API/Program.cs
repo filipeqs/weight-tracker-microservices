@@ -1,4 +1,5 @@
 using Exercises.API.Extensions;
+using Exercises.API.Middleware;
 using Exercises.Application;
 using Exercises.Infrastructure;
 using Exercises.Infrastructure.Persistance;
@@ -31,8 +32,10 @@ app.MigrateDatabase<ExerciseContext>((context, services) =>
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog.API v1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Exercises.API v1"));
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 
