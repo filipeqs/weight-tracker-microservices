@@ -7,12 +7,14 @@ namespace Exercises.Application.Features.Exercises.Commands.CreateExercise
         public CreateExerciseCommandValidator()
         {
             RuleFor(e => e.ExerciseCreateDto.Name)
-                .NotEmpty().WithMessage("Name is required.")
-                .NotNull();
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull().WithMessage("{PropertyName} must not be empty.")
+                .OverridePropertyName("Name");
 
-            RuleFor(e => e.ExerciseCreateDto.Name)
+            RuleFor(e => e.ExerciseCreateDto.Description)
                 .NotEmpty().WithMessage("Description is required.")
-                .NotNull();
+                .NotNull().WithMessage("{PropertyName} must not be empty.")
+                .OverridePropertyName("Description");
         }
     }
 }

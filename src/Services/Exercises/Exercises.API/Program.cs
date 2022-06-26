@@ -3,6 +3,7 @@ using Exercises.API.Middleware;
 using Exercises.Application;
 using Exercises.Infrastructure;
 using Exercises.Infrastructure.Persistance;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,11 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 var app = builder.Build();
 

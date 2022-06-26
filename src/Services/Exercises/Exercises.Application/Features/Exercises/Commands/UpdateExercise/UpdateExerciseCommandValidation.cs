@@ -7,16 +7,19 @@ namespace Exercises.Application.Features.Exercises.Commands.UpdateExercise
         public UpdateExerciseCommandValidation()
         {
             RuleFor(e => e.ExerciseUpdateDto.Id)
-               .NotEmpty().WithMessage("Id is required.")
-               .NotNull();
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull().WithMessage("{PropertyName} must not be empty.")
+                .OverridePropertyName("Id");
 
             RuleFor(e => e.ExerciseUpdateDto.Name)
-                .NotEmpty().WithMessage("Name is required.")
-                .NotNull();
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull().WithMessage("{PropertyName} must not be empty.")
+                .OverridePropertyName("Name");
 
-            RuleFor(e => e.ExerciseUpdateDto.Name)
-                .NotEmpty().WithMessage("Description is required.")
-                .NotNull();
+            RuleFor(e => e.ExerciseUpdateDto.Description)
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull().WithMessage("{PropertyName} must not be empty.")
+                .OverridePropertyName("Description");
         }
     }
 }
