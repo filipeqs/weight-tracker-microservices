@@ -4,6 +4,9 @@ services:
   exercisedb:
     image: mysql
 
+  adminer:
+    image: adminer
+
   portainer:
     image: portainer/portainer-ce
 

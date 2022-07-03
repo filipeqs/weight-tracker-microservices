@@ -5,17 +5,22 @@ services:
     container_name: exercisedb
     restart: always
     environment:
-        - MYSQL_ROOT_PASSWORD=P@ssw0rd
+      - MYSQL_ROOT_PASSWORD=P@ssw0rd
     ports:
-        - 3306:3306
+      - 3306:3306
     volumes:
-        - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
+
+  adminer:
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
   portainer:
     container_name: portainer
     restart: always
     ports:
-      - '8080:8000'
       - '9000:9000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -24,12 +29,12 @@ services:
   exercises.api:
     container_name: exercises.api
     environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-        - "ConnectionStrings:ExerciseConnectionString=server=exercisedb;port=3306;database=exercisedb;persistsecurityinfo=True;user id=root;password=P@ssw0rd"
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:ExerciseConnectionString=server=exercisedb;port=3306;database=exercisedb;persistsecurityinfo=True;user id=root;password=P@ssw0rd"
     depends_on:
-        - exercisedb
+      - exercisedb
     ports:
-        - "8000:80"
+      - "8000:80"
 
   musclegroups.api:
     container_name: musclegroups.api
@@ -37,6 +42,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:MuscleGroupConnectionString=server=exercisedb;port=3306;database=exercisedb;persistsecurityinfo=True;user id=root;password=P@ssw0rd"
     depends_on:
-        - exercisedb
+      - exercisedb
     ports:
-        - "8001:80"
+      - "8001:80"

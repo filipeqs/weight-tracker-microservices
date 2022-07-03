@@ -11,6 +11,7 @@ namespace Exercises.Infrastructure.Persistance
         }
 
         public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<MuscleGroup> MuscleGroups { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
