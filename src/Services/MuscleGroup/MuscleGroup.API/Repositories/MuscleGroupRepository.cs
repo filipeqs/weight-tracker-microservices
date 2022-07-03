@@ -1,8 +1,8 @@
-﻿using Category.API.Entities;
-using Category.API.Persistance;
+﻿using MuscleGroups.API.Entities;
+using MuscleGroups.API.Persistance;
 using Microsoft.EntityFrameworkCore;
 
-namespace Category.API.Repositories
+namespace MuscleGroups.API.Repositories
 {
     public class MuscleGroupRepository : IMuscleGroupRepository
     {

@@ -81,6 +81,7 @@ namespace Exercises.API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsDto>> CreateExercise([FromBody] ExerciseCreateDto exerciseCreateDto)
         {
@@ -102,7 +103,7 @@ namespace Exercises.API.Controllers
             return Ok(exercise);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteExerciseById(int id)

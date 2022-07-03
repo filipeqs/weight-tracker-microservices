@@ -13,6 +13,12 @@ services:
       context: .
       dockerfile: Services/Exercises/Exercises.API/Dockerfile
   
+  musclegroups.api:
+    image: ${DOCKER_REGISTRY-}musclegroupsapi
+    build:
+      context: .
+      dockerfile: Services/MuscleGroup/MuscleGroup.API/Dockerfile
+
 volumes:
   mysql_data:
   portainer_data:

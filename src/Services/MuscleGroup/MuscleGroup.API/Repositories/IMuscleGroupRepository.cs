@@ -1,6 +1,6 @@
-﻿using Category.API.Entities;
+﻿using MuscleGroups.API.Entities;
 
-namespace Category.API.Repositories
+namespace MuscleGroups.API.Repositories
 {
     public interface IMuscleGroupRepository
     {

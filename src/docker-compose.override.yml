@@ -22,7 +22,7 @@ services:
       - portainer_data:/data
 
   exercises.api:
-    container_name: exercise.api
+    container_name: exercises.api
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - "ConnectionStrings:ExerciseConnectionString=server=exercisedb;port=3306;database=exercisedb;persistsecurityinfo=True;user id=root;password=P@ssw0rd"
@@ -30,3 +30,13 @@ services:
         - exercisedb
     ports:
         - "8000:80"
+
+  musclegroups.api:
+    container_name: musclegroups.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:MuscleGroupConnectionString=server=exercisedb;port=3306;database=exercisedb;persistsecurityinfo=True;user id=root;password=P@ssw0rd"
+    depends_on:
+        - exercisedb
+    ports:
+        - "8001:80"

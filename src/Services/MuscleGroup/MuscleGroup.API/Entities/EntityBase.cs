@@ -1,4 +1,4 @@
-﻿namespace Category.API.Entities
+﻿namespace MuscleGroups.API.Entities
 {
     public class EntityBase
     {
