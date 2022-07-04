@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MuscleGroup", "MuscleGroup"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuscleGroups.API", "Services\MuscleGroup\MuscleGroup.API\MuscleGroups.API.csproj", "{693C993B-3633-4CA0-B62A-8350B485395B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{B33BF0DD-4B59-4A4C-A862-AB380FB5F747}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGw", "ApiGateways\OcelotApiGw\OcelotApiGw.csproj", "{AFACC833-3710-4613-B2EE-745117015648}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,10 @@ Global
 		{693C993B-3633-4CA0-B62A-8350B485395B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{693C993B-3633-4CA0-B62A-8350B485395B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{693C993B-3633-4CA0-B62A-8350B485395B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFACC833-3710-4613-B2EE-745117015648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFACC833-3710-4613-B2EE-745117015648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFACC833-3710-4613-B2EE-745117015648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFACC833-3710-4613-B2EE-745117015648}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +71,7 @@ Global
 		{FEA0BC3A-1793-4F85-9C58-319206F01ACB} = {5E1BECDC-5E94-40E6-908D-19468037B5F5}
 		{9ECAE542-5C46-4E71-8A3F-BCA064C815C0} = {DE378987-5CA2-4B93-B9E5-89CB02F3F406}
 		{693C993B-3633-4CA0-B62A-8350B485395B} = {9ECAE542-5C46-4E71-8A3F-BCA064C815C0}
+		{AFACC833-3710-4613-B2EE-745117015648} = {B33BF0DD-4B59-4A4C-A862-AB380FB5F747}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD40AA43-955B-4F8E-B665-4DFA4E8353B0}

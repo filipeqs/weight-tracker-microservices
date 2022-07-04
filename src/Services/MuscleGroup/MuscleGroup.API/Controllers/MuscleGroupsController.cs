@@ -8,12 +8,12 @@ namespace MuscleGroups.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class MuscleGroupController : ControllerBase
+    public class MuscleGroupsController : ControllerBase
     {
         private IMuscleGroupRepository _repository;
-        private readonly ILogger<MuscleGroupController> _logger;
+        private readonly ILogger<MuscleGroupsController> _logger;
 
-        public MuscleGroupController(IMuscleGroupRepository repository, ILogger<MuscleGroupController> logger)
+        public MuscleGroupsController(IMuscleGroupRepository repository, ILogger<MuscleGroupsController> logger)
         {
             _repository = repository;
             _logger = logger;
